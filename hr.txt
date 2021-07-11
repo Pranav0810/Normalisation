@@ -1,0 +1,825 @@
+SQL> select region_name from regions;
+
+REGION_NAME                                                                     
+-------------------------                                                       
+Europe                                                                          
+Americas                                                                        
+Asia                                                                            
+Middle East and Africa                                                          
+
+SQL> select state_province from locations;
+
+STATE_PROVINCE                                                                  
+-------------------------                                                       
+                                                                                
+                                                                                
+Tokyo Prefecture                                                                
+                                                                                
+Texas                                                                           
+California                                                                      
+New Jersey                                                                      
+Washington                                                                      
+Ontario                                                                         
+Yukon                                                                           
+                                                                                
+
+STATE_PROVINCE                                                                  
+-------------------------                                                       
+Maharashtra                                                                     
+New South Wales                                                                 
+                                                                                
+                                                                                
+Oxford                                                                          
+Manchester                                                                      
+Bavaria                                                                         
+Sao Paulo                                                                       
+Geneve                                                                          
+BE                                                                              
+Utrecht                                                                         
+
+STATE_PROVINCE                                                                  
+-------------------------                                                       
+Distrito Federal,                                                               
+
+23 rows selected.
+
+SQL> select department_id from employees group by department_id having max(salary)>10000;
+
+DEPARTMENT_ID                                                                   
+-------------                                                                   
+          100                                                                   
+           30                                                                   
+           90                                                                   
+           20                                                                   
+          110                                                                   
+           80                                                                   
+
+6 rows selected.
+
+SQL> select * from department where department_id in (select department_id from employees group by department_id having max(salary)>10000);
+select * from department where department_id in (select department_id from employees group by department_id having max(salary)>10000)
+              *
+ERROR at line 1:
+ORA-00942: table or view does not exist 
+
+
+SQL> select * from departments where department_id in (select department_id from employees group by department_id having max(salary)>10000);
+
+DEPARTMENT_ID DEPARTMENT_NAME                MANAGER_ID LOCATION_ID             
+------------- ------------------------------ ---------- -----------             
+          100 Finance                               108        1700             
+           30 Purchasing                            114        1700             
+           90 Executive                             100        1700             
+           20 Marketing                             201        1800             
+          110 Accounting                            205        1700             
+           80 Sales                                 145        2500             
+
+6 rows selected.
+
+SQL> select * from departments where manager_id in(Select Employee_id from employees where first_name='SMITH');
+
+no rows selected
+
+SQL> select job_id from jobs where to_char(start_date,'YYYY')=to_char('SYSDATE','YYYY');
+select job_id from jobs where to_char(start_date,'YYYY')=to_char('SYSDATE','YYYY')
+                                      *
+ERROR at line 1:
+ORA-00904: "START_DATE": invalid identifier 
+
+
+SQL> select job_id from jobs where to_char(start-date,'YYYY')=to_char('SYSDATE','YYYY');
+select job_id from jobs where to_char(start-date,'YYYY')=to_char('SYSDATE','YYYY')
+                                      *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> select start-date from job_history;
+select start-date from job_history
+       *
+ERROR at line 1:
+ORA-00936: missing expression 
+
+
+SQL> select start_date from job_history;
+
+START_DAT                                                                       
+---------                                                                       
+21-SEP-97                                                                       
+28-OCT-01                                                                       
+13-JAN-01                                                                       
+24-MAR-06                                                                       
+01-JAN-07                                                                       
+24-MAR-06                                                                       
+01-JAN-07                                                                       
+17-SEP-95                                                                       
+01-JUL-02                                                                       
+17-FEB-04                                                                       
+
+10 rows selected.
+
+SQL> select job_id from jobs where to_char(start_date,'YYYY')=to_char('SYSDATE','YYYY');
+select job_id from jobs where to_char(start_date,'YYYY')=to_char('SYSDATE','YYYY')
+                                      *
+ERROR at line 1:
+ORA-00904: "START_DATE": invalid identifier 
+
+
+SQL> select sysdate from dual;
+
+SYSDATE                                                                         
+---------                                                                       
+11-JUL-21                                                                       
+
+SQL> select job_id from jobs where job_id in (Select job_id from employees where to_char(hire_date,'YYYY')=to_char(SYSDATE,'YYYY'));
+
+no rows selected
+
+SQL> select employee_id from job_history;
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        101                                                                     
+        101                                                                     
+        102                                                                     
+        114                                                                     
+        122                                                                     
+        176                                                                     
+        176                                                                     
+        200                                                                     
+        200                                                                     
+        201                                                                     
+
+10 rows selected.
+
+SQL> select employee_id deom employees;
+select employee_id deom employees
+                        *
+ERROR at line 1:
+ORA-00923: FROM keyword not found where expected 
+
+
+SQL> select employee_id from employees;
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        100                                                                     
+        101                                                                     
+        102                                                                     
+        103                                                                     
+        104                                                                     
+        105                                                                     
+        106                                                                     
+        107                                                                     
+        108                                                                     
+        109                                                                     
+        110                                                                     
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        111                                                                     
+        112                                                                     
+        113                                                                     
+        114                                                                     
+        115                                                                     
+        116                                                                     
+        117                                                                     
+        118                                                                     
+        119                                                                     
+        120                                                                     
+        121                                                                     
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        122                                                                     
+        123                                                                     
+        124                                                                     
+        125                                                                     
+        126                                                                     
+        127                                                                     
+        128                                                                     
+        129                                                                     
+        130                                                                     
+        131                                                                     
+        132                                                                     
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        133                                                                     
+        134                                                                     
+        135                                                                     
+        136                                                                     
+        137                                                                     
+        138                                                                     
+        139                                                                     
+        140                                                                     
+        141                                                                     
+        142                                                                     
+        143                                                                     
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        144                                                                     
+        145                                                                     
+        146                                                                     
+        147                                                                     
+        148                                                                     
+        149                                                                     
+        150                                                                     
+        151                                                                     
+        152                                                                     
+        153                                                                     
+        154                                                                     
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        155                                                                     
+        156                                                                     
+        157                                                                     
+        158                                                                     
+        159                                                                     
+        160                                                                     
+        161                                                                     
+        162                                                                     
+        163                                                                     
+        164                                                                     
+        165                                                                     
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        166                                                                     
+        167                                                                     
+        168                                                                     
+        169                                                                     
+        170                                                                     
+        171                                                                     
+        172                                                                     
+        173                                                                     
+        174                                                                     
+        175                                                                     
+        176                                                                     
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        177                                                                     
+        178                                                                     
+        179                                                                     
+        180                                                                     
+        181                                                                     
+        182                                                                     
+        183                                                                     
+        184                                                                     
+        185                                                                     
+        186                                                                     
+        187                                                                     
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        188                                                                     
+        189                                                                     
+        190                                                                     
+        191                                                                     
+        192                                                                     
+        193                                                                     
+        194                                                                     
+        195                                                                     
+        196                                                                     
+        197                                                                     
+        198                                                                     
+
+EMPLOYEE_ID                                                                     
+-----------                                                                     
+        199                                                                     
+        200                                                                     
+        201                                                                     
+        202                                                                     
+        203                                                                     
+        204                                                                     
+        205                                                                     
+        206                                                                     
+
+107 rows selected.
+
+SQL> select * from employees where employee_id not in(select employee_id from job_history);
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        100 Steven               King                                           
+SKING                     515.123.4567         17-JUN-03 AD_PRES         24000  
+                                     90                                         
+                                                                                
+        103 Alexander            Hunold                                         
+AHUNOLD                   590.423.4567         03-JAN-06 IT_PROG          9000  
+                      102            60                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        104 Bruce                Ernst                                          
+BERNST                    590.423.4568         21-MAY-07 IT_PROG          6000  
+                      103            60                                         
+                                                                                
+        105 David                Austin                                         
+DAUSTIN                   590.423.4569         25-JUN-05 IT_PROG          4800  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                      103            60                                         
+                                                                                
+        106 Valli                Pataballa                                      
+VPATABAL                  590.423.4560         05-FEB-06 IT_PROG          4800  
+                      103            60                                         
+                                                                                
+        107 Diana                Lorentz                                        
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+DLORENTZ                  590.423.5567         07-FEB-07 IT_PROG          4200  
+                      103            60                                         
+                                                                                
+        108 Nancy                Greenberg                                      
+NGREENBE                  515.124.4569         17-AUG-02 FI_MGR          12008  
+                      101           100                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        109 Daniel               Faviet                                         
+DFAVIET                   515.124.4169         16-AUG-02 FI_ACCOUNT       9000  
+                      108           100                                         
+                                                                                
+        110 John                 Chen                                           
+JCHEN                     515.124.4269         28-SEP-05 FI_ACCOUNT       8200  
+                      108           100                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        111 Ismael               Sciarra                                        
+ISCIARRA                  515.124.4369         30-SEP-05 FI_ACCOUNT       7700  
+                      108           100                                         
+                                                                                
+        112 Jose Manuel          Urman                                          
+JMURMAN                   515.124.4469         07-MAR-06 FI_ACCOUNT       7800  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                      108           100                                         
+                                                                                
+        113 Luis                 Popp                                           
+LPOPP                     515.124.4567         07-DEC-07 FI_ACCOUNT       6900  
+                      108           100                                         
+                                                                                
+        115 Alexander            Khoo                                           
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+AKHOO                     515.127.4562         18-MAY-03 PU_CLERK         3100  
+                      114            30                                         
+                                                                                
+        116 Shelli               Baida                                          
+SBAIDA                    515.127.4563         24-DEC-05 PU_CLERK         2900  
+                      114            30                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        117 Sigal                Tobias                                         
+STOBIAS                   515.127.4564         24-JUL-05 PU_CLERK         2800  
+                      114            30                                         
+                                                                                
+        118 Guy                  Himuro                                         
+GHIMURO                   515.127.4565         15-NOV-06 PU_CLERK         2600  
+                      114            30                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        119 Karen                Colmenares                                     
+KCOLMENA                  515.127.4566         10-AUG-07 PU_CLERK         2500  
+                      114            30                                         
+                                                                                
+        120 Matthew              Weiss                                          
+MWEISS                    650.123.1234         18-JUL-04 ST_MAN           8000  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                      100            50                                         
+                                                                                
+        121 Adam                 Fripp                                          
+AFRIPP                    650.123.2234         10-APR-05 ST_MAN           8200  
+                      100            50                                         
+                                                                                
+        123 Shanta               Vollman                                        
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+SVOLLMAN                  650.123.4234         10-OCT-05 ST_MAN           6500  
+                      100            50                                         
+                                                                                
+        124 Kevin                Mourgos                                        
+KMOURGOS                  650.123.5234         16-NOV-07 ST_MAN           5800  
+                      100            50                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        125 Julia                Nayer                                          
+JNAYER                    650.124.1214         16-JUL-05 ST_CLERK         3200  
+                      120            50                                         
+                                                                                
+        126 Irene                Mikkilineni                                    
+IMIKKILI                  650.124.1224         28-SEP-06 ST_CLERK         2700  
+                      120            50                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        127 James                Landry                                         
+JLANDRY                   650.124.1334         14-JAN-07 ST_CLERK         2400  
+                      120            50                                         
+                                                                                
+        128 Steven               Markle                                         
+SMARKLE                   650.124.1434         08-MAR-08 ST_CLERK         2200  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                      120            50                                         
+                                                                                
+        129 Laura                Bissot                                         
+LBISSOT                   650.124.5234         20-AUG-05 ST_CLERK         3300  
+                      121            50                                         
+                                                                                
+        130 Mozhe                Atkinson                                       
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+MATKINSO                  650.124.6234         30-OCT-05 ST_CLERK         2800  
+                      121            50                                         
+                                                                                
+        131 James                Marlow                                         
+JAMRLOW                   650.124.7234         16-FEB-05 ST_CLERK         2500  
+                      121            50                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        132 TJ                   Olson                                          
+TJOLSON                   650.124.8234         10-APR-07 ST_CLERK         2100  
+                      121            50                                         
+                                                                                
+        133 Jason                Mallin                                         
+JMALLIN                   650.127.1934         14-JUN-04 ST_CLERK         3300  
+                      122            50                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        134 Michael              Rogers                                         
+MROGERS                   650.127.1834         26-AUG-06 ST_CLERK         2900  
+                      122            50                                         
+                                                                                
+        135 Ki                   Gee                                            
+KGEE                      650.127.1734         12-DEC-07 ST_CLERK         2400  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                      122            50                                         
+                                                                                
+        136 Hazel                Philtanker                                     
+HPHILTAN                  650.127.1634         06-FEB-08 ST_CLERK         2200  
+                      122            50                                         
+                                                                                
+        137 Renske               Ladwig                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+RLADWIG                   650.121.1234         14-JUL-03 ST_CLERK         3600  
+                      123            50                                         
+                                                                                
+        138 Stephen              Stiles                                         
+SSTILES                   650.121.2034         26-OCT-05 ST_CLERK         3200  
+                      123            50                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        139 John                 Seo                                            
+JSEO                      650.121.2019         12-FEB-06 ST_CLERK         2700  
+                      123            50                                         
+                                                                                
+        140 Joshua               Patel                                          
+JPATEL                    650.121.1834         06-APR-06 ST_CLERK         2500  
+                      123            50                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        141 Trenna               Rajs                                           
+TRAJS                     650.121.8009         17-OCT-03 ST_CLERK         3500  
+                      124            50                                         
+                                                                                
+        142 Curtis               Davies                                         
+CDAVIES                   650.121.2994         29-JAN-05 ST_CLERK         3100  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                      124            50                                         
+                                                                                
+        143 Randall              Matos                                          
+RMATOS                    650.121.2874         15-MAR-06 ST_CLERK         2600  
+                      124            50                                         
+                                                                                
+        144 Peter                Vargas                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+PVARGAS                   650.121.2004         09-JUL-06 ST_CLERK         2500  
+                      124            50                                         
+                                                                                
+        145 John                 Russell                                        
+JRUSSEL                   011.44.1344.429268   01-OCT-04 SA_MAN          14000  
+            .4        100            80                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        146 Karen                Partners                                       
+KPARTNER                  011.44.1344.467268   05-JAN-05 SA_MAN          13500  
+            .3        100            80                                         
+                                                                                
+        147 Alberto              Errazuriz                                      
+AERRAZUR                  011.44.1344.429278   10-MAR-05 SA_MAN          12000  
+            .3        100            80                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        148 Gerald               Cambrault                                      
+GCAMBRAU                  011.44.1344.619268   15-OCT-07 SA_MAN          11000  
+            .3        100            80                                         
+                                                                                
+        149 Eleni                Zlotkey                                        
+EZLOTKEY                  011.44.1344.429018   29-JAN-08 SA_MAN          10500  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+            .2        100            80                                         
+                                                                                
+        150 Peter                Tucker                                         
+PTUCKER                   011.44.1344.129268   30-JAN-05 SA_REP          10000  
+            .3        145            80                                         
+                                                                                
+        151 David                Bernstein                                      
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+DBERNSTE                  011.44.1344.345268   24-MAR-05 SA_REP           9500  
+           .25        145            80                                         
+                                                                                
+        152 Peter                Hall                                           
+PHALL                     011.44.1344.478968   20-AUG-05 SA_REP           9000  
+           .25        145            80                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        153 Christopher          Olsen                                          
+COLSEN                    011.44.1344.498718   30-MAR-06 SA_REP           8000  
+            .2        145            80                                         
+                                                                                
+        154 Nanette              Cambrault                                      
+NCAMBRAU                  011.44.1344.987668   09-DEC-06 SA_REP           7500  
+            .2        145            80                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        155 Oliver               Tuvault                                        
+OTUVAULT                  011.44.1344.486508   23-NOV-07 SA_REP           7000  
+           .15        145            80                                         
+                                                                                
+        156 Janette              King                                           
+JKING                     011.44.1345.429268   30-JAN-04 SA_REP          10000  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+           .35        146            80                                         
+                                                                                
+        157 Patrick              Sully                                          
+PSULLY                    011.44.1345.929268   04-MAR-04 SA_REP           9500  
+           .35        146            80                                         
+                                                                                
+        158 Allan                McEwen                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+AMCEWEN                   011.44.1345.829268   01-AUG-04 SA_REP           9000  
+           .35        146            80                                         
+                                                                                
+        159 Lindsey              Smith                                          
+LSMITH                    011.44.1345.729268   10-MAR-05 SA_REP           8000  
+            .3        146            80                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        160 Louise               Doran                                          
+LDORAN                    011.44.1345.629268   15-DEC-05 SA_REP           7500  
+            .3        146            80                                         
+                                                                                
+        161 Sarath               Sewall                                         
+SSEWALL                   011.44.1345.529268   03-NOV-06 SA_REP           7000  
+           .25        146            80                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+                                                                                
+        162 Clara                Vishney                                        
+CVISHNEY                  011.44.1346.129268   11-NOV-05 SA_REP          10500  
+           .25        147            80                                         
+                                                                                
+        163 Danielle             Greene                                         
+DGREENE                   011.44.1346.229268   19-MAR-07 SA_REP           9500  
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+           .15        147            80                                         
+                                                                                
+        164 Mattea               Marvins                                        
+MMARVINS                  011.44.1346.329268   24-JAN-08 SA_REP           7200  
+            .1        147            80                                         
+                                                                                
+        165 David                Lee                                            
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+DLEE                      011.44.1346.529268   23-FEB-08 SA_REP           6800  
+            .1        147            80                                         
+                                                                                
+        166 Sundar               Ande                                           
+SANDE                     011.44.1346.629268   24-MAR-08 SA_REP           6400  
+            .1        147            80                                         
+                                                                                
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
+------------------------- -------------------- --------- ---------- ----------  
+COMMISSION_PCT MANAGER_ID DEPARTMENT_ID                                         
+-------------- ---------- -------------                                         
+        167 Amit                 Banda                                          
+ABANDA                    011.44.1346.729268   21-APR-08 SA_REP           6200  
+            .1        147            80                                         
+                                                                                
+        168 Lisa                 Ozer                                           
+LOZER                     011.44.1343.929268   11-MAR-05 SA_REP          11500  
+           .25        148            80                                         
+
+EMPLOYEE_ID FIRST_NAME           LAST_NAME                                      
+----------- -------------------- -------------------------                      
+EMAIL                     PHONE_NUMBER         HIRE_DATE JOB_ID         SALARY  
